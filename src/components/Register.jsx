@@ -4,7 +4,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 const Register = () => {
-  const { setUser, createUser } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -16,10 +16,12 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const loggedUser = result.user;
-        setUser(loggedUser);
+
+        // update profile
         updateProfile(loggedUser, {
           displayName: name,
         });
+
         console.log(loggedUser);
       })
       .catch((error) => {
