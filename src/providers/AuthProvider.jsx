@@ -12,15 +12,24 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   //create user to firebase
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   //signin user to firebase
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  // signout from firebase
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
   };
 
   //   user observer auth state change
@@ -31,6 +40,7 @@ const AuthProvider = ({ children }) => {
         currentUser
       );
       setUser(currentUser);
+      setLoading(false);
 
       return () => {
         unSubscriber();
@@ -38,12 +48,9 @@ const AuthProvider = ({ children }) => {
     });
   }, []);
 
-  // signout from firebase
-  const logOut = () => {
-    return signOut(auth);
-  };
   const authInfo = {
     user,
+    loading,
     setUser,
     createUser,
     signInUser,
