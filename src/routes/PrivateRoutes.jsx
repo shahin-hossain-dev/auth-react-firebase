@@ -16,6 +16,6 @@ const PrivateRoutes = ({ children }) => {
   return <Navigate to={"/login"}></Navigate>;
 };
 PrivateRoutes.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
 export default PrivateRoutes;
